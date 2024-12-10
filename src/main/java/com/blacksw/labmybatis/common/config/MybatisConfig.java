@@ -1,4 +1,4 @@
-package com.blacksw.labmybatis.config;
+package com.blacksw.labmybatis.common.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -14,7 +14,6 @@ import org.springframework.core.io.ClassPathResource;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(value = "com.blacksw.labmybatis", sqlSessionFactoryRef = "SqlSessionFactory")
 public class MybatisConfig {
 
     @Value("${mybatis.config-location}")
@@ -26,8 +25,8 @@ public class MybatisConfig {
     @Value(("${mybatis.mapper-location}"))
     private String mybatisMapperLocation;
 
-    @Bean(name = "SqlSessionFactory")
-    public SqlSessionFactory SqlSessionFactory(DataSource dataSource, ApplicationContext applicationContext) throws Exception {
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, ApplicationContext applicationContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource(mybatisConfigLocation));
@@ -37,7 +36,7 @@ public class MybatisConfig {
     }
 
     @Bean
-    public SqlSessionTemplate SqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 

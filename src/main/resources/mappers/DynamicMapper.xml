@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blacksw.labmybatis.dynamic.mapper.DynamicMapper">
+
+    <select id="selectDynamic1" resultType="DynamicResponse1">
+        SELECT id
+        , name
+        , email
+        , created_at
+        , updated_at
+        FROM user
+        <where>
+            <if test="name != null">
+                <bind name="nameLike" value="'%' + name + '%'"/>
+                AND name LIKE #{nameLike}
+            </if>
+            <if test="email != null">
+                <bind name="emailLike" value="'%' + email + '%'"/>
+                AND email LIKE #{emailLike}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="selectDynamic3" resultType="DynamicResponse3">
+        SELECT id
+        , tel
+        , birth
+        , created_at
+        , updated_at
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="tel != null">
+                AND tel LIKE concat('%', #{tel}, '%')
+            </if>
+            <if test="birth != null">
+                AND birth LIKE concat('%', #{birth}, '%')
+            </if>
+        </trim>
+        ORDER BY id DESC
+    </select>
+
+    <select id="selectDynamic2" resultType="DynamicResponse2">
+        SELECT id
+        , name
+        , gender
+        , created_at
+        , updated_at
+        FROM user
+        <where>
+            <choose>
+                <when test='gender == "m"'>
+                    AND gender = 'm'
+                </when>
+                <when test='gender == "w"'>
+                    AND gender = 'w'
+                </when>
+                <otherwise>
+                    AND gender IS NOT NULL
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="selectDynamic4" resultType="DynamicResponse4">
+        SELECT id
+        , name
+        , role
+        , created_at
+        , updated_at
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="roles != null">
+                role IN
+                <foreach item="role" collection="roles" open="(" separator="," close=")">
+                    #{role}
+                </foreach>
+            </if>
+        </trim>
+        ORDER BY id DESC
+    </select>
+
+</mapper>

@@ -5,4 +5,15 @@
 <!--    <mappers>-->
 <!--        <mapper resource="mappers/HelloMapper.xml"/>-->
 <!--    </mappers>-->
+    
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+
+    <typeHandlers>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+    </typeHandlers>
+
 </configuration>
