@@ -13,8 +13,8 @@
         <appender-ref ref="stdout"/>
     </logger>
 
-<!--    <root level="error">-->
-<!--        <appender-ref ref="stdout"/>-->
-<!--    </root>-->
+    <root level="error">
+        <appender-ref ref="stdout"/>
+    </root>
 
 </configuration>

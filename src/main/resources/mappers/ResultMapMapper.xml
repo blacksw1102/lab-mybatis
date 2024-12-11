@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blacksw.labmybatis.resultmap.mapper.ResultMapMapper">
+
+    <!-- resultMap -->
+    <resultMap id="selectResultMapResponse1" type="SelectResultMapResponse1">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="birth" column="birth"/>
+    </resultMap>
+
+    <resultMap id="selectResultMapResponse2" type="SelectResultMapResponse2">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <association property="address" javaType="SelectResultMapResponse2Address">
+            <id property="id" column="address_id"/>
+            <result property="street" column="street"/>
+            <result property="city" column="city"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="selectResultMapResponse3" type="SelectResultMapResponse3">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="orders" ofType="SelectResultMapResponse3Order">
+            <id property="id" column="order_id"/>
+            <result property="productName" column="product_name"/>
+            <result property="quantity" column="quantity"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectResultMapResponse4" type="SelectResultMapResponse4">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <discriminator javaType="String" column="role">
+            <case value="USER" resultMap="selectResultMapResponse4User"/>
+            <case value="ADMIN" resultMap="selectResultMapResponse4Admin"/>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="selectResultMapResponse4User" type="SelectResultMapResponse4User">
+        <result property="userField1" column="user_field1"/>
+    </resultMap>
+
+    <resultMap id="selectResultMapResponse4Admin" type="SelectResultMapResponse4Admin">
+        <result property="adminField1" column="admin_field1"/>
+    </resultMap>
+
+    <!-- select -->
+    <select id="selectResultMap1" parameterType="SelectResultMapRequest1" resultType="selectResultMapResponse1">
+        SELECT id
+             , name
+             , birth
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectResultMap2" parameterType="SelectResultMapRequest2" resultMap="selectResultMapResponse2">
+        SELECT u.id
+             , u.name
+             , a.id AS address_id
+             , a.street
+             , a.city
+        FROM user u
+        LEFT JOIN address a ON u.address_id = a.id
+        WHERE u.id = #{id}
+    </select>
+
+    <select id="selectResultMap3" parameterType="SelectResultMapRequest3" resultMap="selectResultMapResponse3">
+        SELECT u.id
+             , u.name
+             , o.id as order_id
+             , o.product_name
+             , o.quantity
+        FROM user u
+                 LEFT JOIN orders o ON u.id = o.user_id
+        WHERE u.id = #{id}
+    </select>
+
+    <select id="selectResultMap4" parameterType="SelectResultMapRequest4" resultMap="selectResultMapResponse4">
+        SELECT u.id
+             , u.name
+             , u.role
+             , u.user_field1
+             , u.admin_field1
+        FROM user u
+        WHERE u.id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>
