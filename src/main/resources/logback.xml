@@ -2,19 +2,19 @@
 <!DOCTYPE configuration>
 <configuration>
 
-    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%5level [%thread] - %msg%n</pattern>
+            <pattern>%date [%thread] %highlight(%-5level) %cyan(%logger{15}) - %msg%n</pattern>
         </encoder>
     </appender>
 
     <!-- 패키지 범위에 적용할 로거 지정 -->
-    <logger name="com.blacksw.labmybatis" level="debug">
-        <appender-ref ref="stdout"/>
+    <logger name="com.blacksw.labmybatis" level="debug" additivity="false">
+        <appender-ref ref="consoleAppender"/>
     </logger>
 
-    <root level="error">
-        <appender-ref ref="stdout"/>
+    <root level="info">
+        <appender-ref ref="consoleAppender"/>
     </root>
 
 </configuration>

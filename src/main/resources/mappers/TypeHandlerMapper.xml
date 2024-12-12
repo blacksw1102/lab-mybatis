@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blacksw.labmybatis.typeHandler.mapper.TypeHandlerMapper">
+
+    <insert id="insertUser">
+        INSERT INTO `user` (name, status, created_at)
+        VALUES (#{name}, #{status}, #{createdAt});
+    </insert>
+
+    <select id="selectUser" resultType="SelectUserResponse">
+        SELECT id
+             , name
+             , status
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+</mapper>

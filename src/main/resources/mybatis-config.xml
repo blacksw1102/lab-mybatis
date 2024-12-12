@@ -8,9 +8,16 @@
         <setting name="jdbcTypeForNull" value="NULL"/>
         <setting name="localCacheScope" value="SESSION"/> <!-- SESSION | STATEMENT -->
         <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="true"/>
     </settings>
 
     <typeHandlers>
-        <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler"/>
+        <typeHandler handler="com.blacksw.labmybatis.typeHandler.config.UserStatusTypeHandler" javaType="com.blacksw.labmybatis.typeHandler.config.UserStatus"/>
     </typeHandlers>
+    
+    <plugins>
+        <plugin interceptor="com.blacksw.labmybatis.common.interceptor.SqlExecutionTimeInterceptor"/>
+    </plugins>
 </configuration>

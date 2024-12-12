@@ -1,10 +1,12 @@
 package com.blacksw.labmybatis.common.entity;
 
+import com.blacksw.labmybatis.typeHandler.config.UserStatus;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -16,6 +18,7 @@ public class User {
     private LocalDate birth;
     private String gender;
     private String role;
+    private UserStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
